@@ -2,13 +2,10 @@ from fastapi import FastAPI
 import uvicorn
 
 from api import router as api_router
+from core.config import settings
 
 
 app = FastAPI()
-app.include_router(
-    api_router,
-    prefix="/api",
-)
 
 application = FastAPI()
 application.include_router(api_router)
@@ -17,8 +14,8 @@ application.include_router(api_router)
 def run():
     uvicorn.run(
         "main:application",
-        host="127.0.0.1",
-        port=8000,
+        host=settings.run.host,
+        port=settings.run.port,
         reload=True,
     )
 
