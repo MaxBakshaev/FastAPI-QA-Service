@@ -20,7 +20,9 @@ class DatabaseHelper:
         pool_size: int = 5,
         max_overflow: int = 10,
     ):
-        """https://docs.sqlalchemy.org/en/20/core/engines.html#engine-creation-api"""
+        """
+        https://docs.sqlalchemy.org/en/20/core/engines.html#engine-creation-api
+        """
         self.engine: AsyncEngine = create_async_engine(
             url=url,
             echo=echo,
@@ -38,7 +40,9 @@ class DatabaseHelper:
         )
 
     async def dispose(self) -> None:
-        """Закрывает соединение с используемым движком, по умолчанию close=True"""
+        """
+        Закрывает соединение с используемым движком, по умолчанию close=True
+        """
         await self.engine.dispose()
 
     async def session_getter(self) -> AsyncGenerator[AsyncSession, None]:
