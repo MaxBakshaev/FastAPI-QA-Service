@@ -1,5 +1,9 @@
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from .load_env import load_env_file
+
+
+load_env_file()
 
 
 class RunConfig(BaseModel):
