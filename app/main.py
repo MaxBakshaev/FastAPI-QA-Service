@@ -1,13 +1,28 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.responses import ORJSONResponse
 import uvicorn
 
 from api import router as api_router
 from core.config import settings
+from core.models import db_helper
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    https://fastapi.tiangolo.com/advanced/events/#lifespan-function
+    Закрывает сессию после завершения работы приложения
+    """
+    yield
+    await db_helper.dispose()
 
-application = FastAPI()
+
+application = FastAPI(
+    default_response_class=ORJSONResponse,
+    lifespan=lifespan,
+)
+
 application.include_router(api_router)
 
 
