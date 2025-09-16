@@ -70,13 +70,13 @@ lint:
 # test:
 # 	$(DC) run --rm alembic pytest app --disable-warnings -v
 test:
-	pytest app/tests
+	pytest app
 
 # 🧪 ✚ 🐍 Запуск тестов в контейнере alembic и проверка кода по flake8 
 # lt:
 # 	$(DC) run --rm alembic pytest app --disable-warnings -q --tb=no app && make lint
 lt:
-	pytest app/tests --disable-warnings -q --tb=no app && make lint
+	pytest app --disable-warnings -q --tb=no app && make lint
 
 # ➤ 📄 Экспорт зависимостей poetry в requirements.txt
 req:
