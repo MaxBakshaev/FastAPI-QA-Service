@@ -58,7 +58,7 @@ jobs:
 
       - name: Start containers
         run: |
-          make up
+          make upnolog
           
       - name: Wait for PostgreSQL to be ready
         run: |
