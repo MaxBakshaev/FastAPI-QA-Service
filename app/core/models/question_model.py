@@ -1,9 +1,12 @@
+from typing import TYPE_CHECKING
 from sqlalchemy import Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base_model import Base
+from . import Base
 from .mixin_model import MixinCreatedAt
-from .answer_model import Answer
+
+if TYPE_CHECKING:
+    from . import Answer
 
 
 class Question(Base, MixinCreatedAt):
@@ -15,6 +18,7 @@ class Question(Base, MixinCreatedAt):
     )
 
     answers: Mapped[list["Answer"]] = relationship(
+        "Answer",
         back_populates="question",
         cascade="all, delete",
     )
