@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import List
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from . import AnswerRead
 
 
 class QuestionBase(BaseModel):
-    text: str
+    text: str = Field(min_length=1)
 
 
 class QuestionCreate(QuestionBase):

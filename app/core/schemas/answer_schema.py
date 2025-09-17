@@ -1,10 +1,9 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class AnswerBase(BaseModel):
-    user_id: str
-    text: str
+    text: str = Field(min_length=1)
 
 
 class AnswerCreate(AnswerBase):
@@ -16,4 +15,5 @@ class AnswerRead(AnswerBase):
 
     id: int
     question_id: int
+    user_id: str
     created_at: datetime
