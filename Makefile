@@ -22,11 +22,11 @@ stop:
 	$(DC) stop
 
 # Поднятие контейнеров в фоновом режиме
-up:
+upnolog:
 	$(DC) up -d
 
 # Поднятие контейнеров с логами
-uplog:
+up:
 	$(DC) up
 
 # Сборка образов
@@ -67,16 +67,12 @@ lint:
 	echo "Lint: SUCCESS" || (echo "Lint: FAIL" && exit 1)
 
 # 🧪 Запуск тестов в контейнере alembic
-# test:
-# 	$(DC) run --rm alembic pytest app --disable-warnings -v
 test:
-	pytest app
+	$(DC) run --rm alembic pytest app --disable-warnings -v
 
 # 🧪 ✚ 🐍 Запуск тестов в контейнере alembic и проверка кода по flake8 
-# lt:
-# 	$(DC) run --rm alembic pytest app --disable-warnings -q --tb=no app && make lint
 lt:
-	pytest app --disable-warnings -q --tb=no app && make lint
+	$(DC) run --rm alembic pytest app --disable-warnings -q --tb=no app && make lint
 
 # ➤ 📄 Экспорт зависимостей poetry в requirements.txt
 req:
