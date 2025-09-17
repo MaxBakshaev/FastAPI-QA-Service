@@ -30,7 +30,8 @@ async def create_new_question(
     question_in: QuestionCreate,
     session: AsyncSession = Depends(db_helper.session_getter),
 ):
-    """Возвращает созданный вопрос"""
+    """Создает и возвращает вопрос"""
+
     return await crud.create_new_question(
         session=session,
         question_in=question_in,
@@ -46,9 +47,10 @@ async def get_question_with_answers_by_id(
     session: AsyncSession = Depends(db_helper.session_getter),
 ) -> Question:
     """Возвращает вопрос по id и все ответы на него"""
+
     question = await crud.get_question_with_answers_by_id(
-        session=session,
         question_id=question_id,
+        session=session,
     )
     if question is not None:
         return question
@@ -63,12 +65,13 @@ async def get_question_with_answers_by_id(
     "/{question_id}/",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def delete_product(
+async def delete_question_with_answers_by_id(
     question: Question = Depends(get_question_with_answers_by_id),
     session: AsyncSession = Depends(db_helper.session_getter),
 ) -> None:
-    """Удаление продукта по id"""
+    """Удаляет продукт по id"""
+
     await crud.delete_question_with_answers_by_id(
-        session=session,
         question=question,
+        session=session,
     )

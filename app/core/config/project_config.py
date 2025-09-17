@@ -18,6 +18,7 @@ class RunConfig(BaseModel):
 class ApiV1Prefix(BaseModel):
     prefix: str = "/v1"
     questions: str = "/questions"
+    answers: str = "/answers"
 
 
 class ApiPrefix(BaseModel):
