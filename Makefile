@@ -34,11 +34,11 @@ build:
 	$(DC) build
 
 # Поднятие с пересборкой в фоновом режиме
-bup:
+bupnolog:
 	$(DC) up --build -d
 
 # Поднятие с пересборкой и логами
-buplog:
+bup:
 	$(DC) up --build
 
 # Остановка и удаление контейнеров 
@@ -68,11 +68,11 @@ lint:
 
 # 🧪 Запуск тестов в контейнере alembic
 test:
-	$(DC) run --rm alembic pytest app --disable-warnings -v
+	$(DC) run --rm alembic-qa-service pytest app --disable-warnings -v
 
 # 🧪 ✚ 🐍 Запуск тестов в контейнере alembic и проверка кода по flake8 
 lt:
-	$(DC) run --rm alembic pytest app --disable-warnings -q --tb=no app && make lint
+	$(DC) run --rm alembic-qa-service pytest app --disable-warnings -q --tb=no app && make lint
 
 # ➤ 📄 Экспорт зависимостей poetry в requirements.txt
 req:
