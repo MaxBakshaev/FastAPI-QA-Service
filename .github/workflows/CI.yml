@@ -65,7 +65,7 @@ jobs:
           POSTGRES_USER=$(grep POSTGRES_USER app/.env.postgres | cut -d '=' -f2)
 
           timeout 20 bash -c "
-            until docker-compose -f docker/docker-compose.yml exec -T postgres pg_isready -U $POSTGRES_USER; do
+            until docker-compose -f docker/docker-compose.yml exec -T postgres-qa-service pg_isready -U $POSTGRES_USER; do
               echo 'Waiting for PostgreSQL...'
               sleep 2
             done
