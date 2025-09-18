@@ -65,7 +65,7 @@ logs:
 ps:
 	$(DC) ps
 
-# 🐍 Проверка кода по flake8
+# 🐍 Проверка кода по flake8 (необходимо активировать виртуальное окружение)
 lint:
 	flake8 app --max-line-length=79 --exclude=alembic && \
 	echo "Lint: SUCCESS" || (echo "Lint: FAIL" && exit 1)
@@ -74,7 +74,7 @@ lint:
 test:
 	$(DC) run --rm alembic-qa-service pytest app --disable-warnings -v
 
-# 🧪 ✚ 🐍 Запуск тестов в контейнере alembic и проверка кода по flake8 
+# 🧪 ✚ 🐍 Запуск тестов в контейнере alembic и проверка кода по flake8 (необходимо активировать виртуальное окружение)
 lt:
 	$(DC) run --rm alembic-qa-service pytest app --disable-warnings -q --tb=no app && make lint
 

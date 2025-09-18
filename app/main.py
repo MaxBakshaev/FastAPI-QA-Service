@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 import uvicorn
 
-from api import router as api_router
+from routers import api_router, test_router
 from core.config import settings
 from core.models import db_helper
 
@@ -24,6 +24,7 @@ application = FastAPI(
 )
 
 application.include_router(api_router)
+application.include_router(test_router)
 
 
 def run():
