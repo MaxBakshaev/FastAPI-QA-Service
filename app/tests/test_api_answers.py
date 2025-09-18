@@ -75,7 +75,11 @@ async def test_delete_answer_by_id(
     """Проверяет удаление ответа по id"""
 
     question = await qa.add_question(session)
-    answer = await qa.add_answer(client, question.id, text="Ответ для удаления")
+    answer = await qa.add_answer(
+        client,
+        question.id,
+        text="Ответ для удаления",
+    )
 
     response = await client.delete(f"/api/v1/answers/{answer['id']}/")
     assert response.status_code == 204
