@@ -3,7 +3,7 @@ import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Question
-from tests.test_mixin import QuestionTestMixin as q
+from tests.test_mixin import QATestMixin as qa
 
 
 @pytest.mark.asyncio
@@ -12,8 +12,6 @@ async def test_get_questions_empty(
     session: AsyncSession,
 ):
     """Проверяет возвращение пустого списка из в БД без вопросов"""
-
-    await q.delete_records_from_questions(session)
 
     response = await client.get("/api/v1/questions/")
     assert response.status_code == 200
@@ -27,15 +25,14 @@ async def test_get_questions_with_data(
 ):
     """Проверяет возвращение корректных данных из БД с вопросом"""
 
-    await q.delete_records_from_questions(session)
-    await q.add_question(session, q.question_text)
+    await qa.add_question(session, qa.question_text)
 
     response = await client.get("/api/v1/questions/")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
     assert len(data) == 1
-    assert data[0]["text"] == q.question_text
+    assert data[0]["text"] == qa.question_text
 
 
 @pytest.mark.asyncio
@@ -45,9 +42,7 @@ async def test_create_new_question(
 ):
     """Проверяет добавления вопроса в БД"""
 
-    await q.delete_records_from_questions(session)
-
-    question_data = {"text": q.question_text}
+    question_data = {"text": qa.question_text}
 
     response = await client.post(
         "/api/v1/questions/",
@@ -70,8 +65,7 @@ async def test_get_question_with_answers_by_id(
 ):
     """Проверяет получение вопроса по id с его ответами"""
 
-    await q.delete_records_from_questions(session)
-    question = await q.add_question(session, q.question_text)
+    question = await qa.add_question(session, qa.question_text)
 
     response = await client.get(f"/api/v1/questions/{question.id}/")
     assert response.status_code == 200
@@ -103,8 +97,7 @@ async def test_delete_question_with_answers_by_id(
 ):
     """Проверяет удаления вопроса по id с его ответами"""
 
-    await q.delete_records_from_questions(session)
-    question = await q.add_question(session, q.question_text)
+    question = await qa.add_question(session, qa.question_text)
 
     response = await client.delete(f"/api/v1/questions/{question.id}/")
     assert response.status_code == 204
