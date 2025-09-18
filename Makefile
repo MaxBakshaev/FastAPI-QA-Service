@@ -41,6 +41,10 @@ bupnolog:
 bup:
 	$(DC) up --build
 
+# Удаление всех контейнеров, сетей, томов и образов
+clean:
+	$(DC) down --volumes --rmi all
+
 # Остановка и удаление контейнеров 
 down:
 	$(DC) down
