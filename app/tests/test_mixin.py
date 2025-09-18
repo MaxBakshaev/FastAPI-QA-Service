@@ -1,23 +1,18 @@
-from sqlalchemy import text
+from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Question
 
 
-class QuestionTestMixin:
+class QATestMixin:
     question_text = "Какое самое быстрое наземное животное?"
-
-    @staticmethod
-    async def delete_records_from_questions(session: AsyncSession):
-        await session.execute(text("DELETE FROM questions"))
-        await session.commit()
 
     @staticmethod
     async def add_question(
         session: AsyncSession,
         text: str = None,
     ) -> Question:
-        text = text or QuestionTestMixin.question_text
+        text = text or QATestMixin.question_text
 
         question = Question(text=text)
         session.add(question)
@@ -26,3 +21,19 @@ class QuestionTestMixin:
         await session.refresh(question)
 
         return question
+
+    @staticmethod
+    async def add_answer(
+        client: AsyncClient,
+        question_id: int,
+        text: str = "Гепард",
+    ) -> dict:
+        """Создаёт ответ через API и возвращает JSON-ответ"""
+
+        response = await client.post(
+            f"/api/v1/questions/{question_id}/answers",
+            json={"text": text},
+        )
+        response.raise_for_status()
+
+        return response.json()

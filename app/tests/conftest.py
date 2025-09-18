@@ -2,6 +2,7 @@ import os
 from typing import AsyncGenerator
 import pytest
 from httpx import ASGITransport, AsyncClient
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
@@ -46,3 +47,11 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
     transport = ASGITransport(app=application)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
+
+
+@pytest.fixture(autouse=True)
+async def delete_records_from_questions(session: AsyncSession):
+    """Очищает таблицу вопросов перед каждым тестом"""
+
+    await session.execute(text("DELETE FROM questions"))
+    await session.commit()
